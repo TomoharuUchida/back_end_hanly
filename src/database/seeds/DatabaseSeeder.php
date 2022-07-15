@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        // 環境に応じてダミーデータを出し分ける 以下、Local開発用
+        $this->call(LocalDevelopSeeder::class);
     }
 }
