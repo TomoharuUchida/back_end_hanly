@@ -56,5 +56,7 @@ class LocalDevelopSeeder extends Seeder
                     'friends_id' => $friend->id,
                 ]);
             });
+
+        \Artisan::call('passport:client --password');
     }
 }
