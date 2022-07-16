@@ -12,4 +12,9 @@ class FriendsRelationship extends Model
         'own_friends_id',
         'other_friends_id',
     ];
+
+    public function friends()
+    {
+        return $this->belongsTo(\App\Eloquents\Friend::class, 'own_friends_id', 'id');
+    }
 }
