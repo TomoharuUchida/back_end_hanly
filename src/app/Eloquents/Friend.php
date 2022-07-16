@@ -15,6 +15,12 @@ class Friend extends Authenticatable
     // Eloquentを通して更新や登録が可能なフィールド（ホワイトリストを定義）
     protected $fillable = ['nickname', 'email', 'password', 'image_path'];
 
+    // JSONとしてレスポンスしてはダメな項目を定義
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+
     public function relationship()
     {
         return $this->hasMany(\App\Eloquents\FriendsRelationship::class, 'own_friends_id', 'id');
