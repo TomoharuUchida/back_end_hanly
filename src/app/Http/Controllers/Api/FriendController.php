@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Eloquents\Friend;
 use App\Eloquents\FriendsRelationship;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\FriendShowRequest;
 
 class FriendController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\Api\FriendShowRequest $request
      * @param int $friendId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, int $friendId)
+    public function show(FriendShowRequest $request, int $friendId)
     {
         // Pinとともに取得
         $friend = Friend::with(['pin'])->find($friendId);
