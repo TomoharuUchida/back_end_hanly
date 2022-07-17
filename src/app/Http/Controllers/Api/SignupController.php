@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\SignupRequest;
+
 
 class SignupController extends Controller
 {
-    public function signup(Request $request)
+    public function signup(SignupRequest $request)
     {
         /**
-         * @param \Illuminate\Http\Request $request
+         * @param \App\Http\Requests\Api\SignupRequest $request
          * @return \Illuminate\Http\JsonResponse
          */
         $email = $request->input('email');

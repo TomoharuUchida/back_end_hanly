@@ -7,14 +7,14 @@ use App\Eloquents\FriendsRelationship;
 use App\Eloquents\Pin;
 use App\Http\Controllers\Controller;
 use Facades\App\Contracts\Distance;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\PinStoreRequest;
 
 class PinController extends Controller
 {
-    public function store(Request $request)
+    public function store(PinStoreRequest $request)
     {
         /**
-         * @param \Illuminate\Http\Request $request
+         * @param \App\Http\Requests\Api\PinStoreRequest $request
          * @return \Illuminate\Http\JsonResponse
          */
         $newFriends = \DB::transaction(function () use ($request) {
