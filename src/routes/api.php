@@ -17,3 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/signup', 'Api\SignupController@signup')->name('api.signup.post');
+
+// JWT認証をかけたルート
+Route::middleware('auth:api')->group(function () {
+    Route::get('/me', 'Api\MeController@me')->name('api.me.get');
+
+    Route::post('/my/image', 'Api\ImageController@store')->name('api.my.image.post');
+
+    Route::post('/my/pin', 'Api\PinController@store')->name('api.my.pin.post');
+
+    Route::get('/friends/{friendId}', 'Api\FriendController@show')->name('api.friends.get');
+
+    Route::get('/friends', 'Api\FriendController@list')->name('api.friends.list.get');
+});
