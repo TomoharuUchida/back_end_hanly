@@ -25,8 +25,8 @@ class SignupRequest extends FormRequest
     {
         return [
             'email' => 'required|string|email|max:100|unique:friends,email',
-            'password' => 'required|string|between8:100',
-            'nickname' => 'required|string|email|max:50',
+            'password' => 'required|string|between:8,100',
+            'nickname' => 'required|string|max:50',
         ];
     }
 }

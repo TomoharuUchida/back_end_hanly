@@ -15,6 +15,7 @@ class FriendShowRequest extends FormRequest
     {
         // パスパラメータを取得
         $friendId = $this->route('friendId');
+
         // Eloquentを使って、閲覧しようとしている友だち情報を取得
         $friend = \App\Eloquents\Friend::find($friendId);
 

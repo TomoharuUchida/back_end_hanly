@@ -12,7 +12,7 @@ class MeController extends Controller
     {
         /**
          * @param \Illuminate\Http\Request $request
-         * @return \Illuminate\Http\JsonResponse
+         * @return \App\Http\Resources\FriendResource
          */
         // Tokenから自分のIDを取得
         // $request->user()は、認証済みユーザーのインスタンスを返す
@@ -20,6 +20,6 @@ class MeController extends Controller
 
         $myInfo = Friend::with(['pin'])->find($myId);
 
-        return response()->json($myInfo);
+        return new \App\Http\Resources\FriendResource($myInfo);
     }
 }

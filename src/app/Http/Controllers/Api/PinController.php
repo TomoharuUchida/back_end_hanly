@@ -15,7 +15,7 @@ class PinController extends Controller
     {
         /**
          * @param \App\Http\Requests\Api\PinStoreRequest $request
-         * @return \Illuminate\Http\JsonResponse
+         * @return \App\Http\Resources\FriendCollection
          */
         $newFriends = \DB::transaction(function () use ($request) {
             // アクセスしてきた人のiDを取得
@@ -75,6 +75,6 @@ class PinController extends Controller
                 ->get();
         });
 
-        return response()->json($newFriends);
+        return new \App\Http\Resources\FriendCollection($newFriends);
     }
 }

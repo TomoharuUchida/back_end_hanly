@@ -24,6 +24,6 @@ class SignupController extends Controller
             'nickname' => $nickname
         ]);
 
-        return response()->json($stored);
+        return new \App\Http\Resources\AccountResource($stored);
     }
 }

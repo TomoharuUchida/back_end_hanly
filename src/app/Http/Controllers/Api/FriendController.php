@@ -6,25 +6,28 @@ use App\Eloquents\Friend;
 use App\Eloquents\FriendsRelationship;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\FriendShowRequest;
+use Illuminate\Http\Request;
+
 
 class FriendController extends Controller
 {
     /**
      * @param \App\Http\Requests\Api\FriendShowRequest $request
      * @param int $friendId
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\FriendResource
      */
     public function show(FriendShowRequest $request, int $friendId)
     {
         // Pinとともに取得
         $friend = Friend::with(['pin'])->find($friendId);
 
-        return response()->json($friend);
+        return new \App\Http\Resources\FriendResource($friend);
     }
+
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\FriendCollection
      */
     public function list(Request $request)
     {
@@ -43,6 +46,6 @@ class FriendController extends Controller
             ->whereIn('id', $friendIds)
             ->get();
 
-        return response()->json($friends);
+        return new  \App\Http\Resources\FriendCollection($friends);
     }
 }
