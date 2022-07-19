@@ -20,6 +20,22 @@ class Friend extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * @param string $email
+     * @param string $password
+     * @param string $nickname
+     * @return self
+     */
+    public function store(string $email, string $password, string $nickname): self
+    {
+        return $this->newInstance()
+            ->create([
+                'email' => $email,
+                'password' => bcrypt($password),
+                'nickname' => $nickname
+            ]);
+    }
+
 
     public function relationship()
     {
