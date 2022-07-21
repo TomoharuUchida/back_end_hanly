@@ -8,17 +8,26 @@ use Illuminate\Http\Request;
 
 class MeController extends Controller
 {
+    protected $friend;
+
+    public function __construct(Friend $friend)
+    {
+        $this->friend = $friend;
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \App\Http\Resources\FriendResource
+     */
     public function me(Request $request)
     {
-        /**
-         * @param \Illuminate\Http\Request $request
-         * @return \App\Http\Resources\FriendResource
-         */
-        // Tokenから自分のIDを取得
-        // $request->user()は、認証済みユーザーのインスタンスを返す
         $myId = $request->user()->id;
 
-        $myInfo = Friend::with(['pin'])->find($myId);
+        $myInfo = $this->friend->findById($myId);
+        if (!$myInfo) {
+            // meという自分の情報にアクセスしてデータが無いのは異常すぎるので500エラーにしてます。
+            abort(500);
+        }
 
         return new \App\Http\Resources\FriendResource($myInfo);
     }

@@ -16,7 +16,7 @@ class SignupTest extends TestCase
      * @test   //← @testアノテーションを書くことで、テスト対象であることを明示します
      */
     // 何をテストするものかを書く。日本語可。英語ならtestXXX()
-    public function signupの正常形を確認する()
+    public function signupの正常系を確認する()
     {
         // 送信データを定義
         $postData = [
