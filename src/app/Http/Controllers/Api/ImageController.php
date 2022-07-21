@@ -8,6 +8,12 @@ use App\Http\Requests\Api\ImageStoreRequest;
 
 class ImageController extends Controller
 {
+    protected $friend;
+
+    public function __construct(Friend $friend)
+    {
+        $this->friend = $friend;
+    }
     /**
      * @param \App\Http\Requests\Api\ImageStoreRequest $request
      * @return \Illuminate\Http\JsonResponse
@@ -19,17 +25,19 @@ class ImageController extends Controller
             $myId = $request->user()->id;
             $savedPath = $request->file->store('images', 'local');
 
-            Friend::find($myId)
-                ->fill([
-                    'image_path' => $savedPath,
-                ])
-                ->save();
+            try {
+                $this->friend->imageStore($myId, $savedPath);
+            } catch (\Exception $e) {
+                // DBでのエラーが起きた場合は、保存したファイルを削除
+                \Storage::disk('local')->delete($savedPath);
+                throw $e;
+            }
 
             return $myId;
         });
 
         return response()->json([
-            'image_url' => route('web.image.get', ['userId' => $myId])
+            'image_url' => route('web.image.get', ['friendId' => $myId])
         ]);
     }
 }

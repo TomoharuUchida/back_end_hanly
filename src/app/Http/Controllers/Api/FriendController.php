@@ -11,6 +11,15 @@ use Illuminate\Http\Request;
 
 class FriendController extends Controller
 {
+    protected $friend;
+    protected $relationship;
+
+    public function __construct(Friend $friend, FriendsRelationship $relationship)
+    {
+        $this->friend = $friend;
+        $this->relationship = $relationship;
+    }
+
     /**
      * @param \App\Http\Requests\Api\FriendShowRequest $request
      * @param int $friendId
@@ -18,12 +27,10 @@ class FriendController extends Controller
      */
     public function show(FriendShowRequest $request, int $friendId)
     {
-        // Pinとともに取得
-        $friend = Friend::with(['pin'])->find($friendId);
+        $friend = $this->friend->findById($friendId);
 
         return new \App\Http\Resources\FriendResource($friend);
     }
-
 
     /**
      * @param \Illuminate\Http\Request $request
@@ -31,21 +38,11 @@ class FriendController extends Controller
      */
     public function list(Request $request)
     {
-        // Tokenから自分のIDを取得
         $myId = $request->user()->id;
 
-        // Eloquentで自分の友だちのIDを取得
-        $friendIds = FriendsRelationship::where('own_friends_id', $myId)
-            ->get()
-            ->pluck('other_friends_id')
-            ->toArray();
+        $friendIds = $this->relationship->myFriends($myId)->pluck('other_friends_id')->toArray();
+        $friends = $this->friend->findByIds($friendIds);
 
-        // 自分の友だちの情報を取得
-
-        $friends = Friend::with(['pin'])
-            ->whereIn('id', $friendIds)
-            ->get();
-
-        return new  \App\Http\Resources\FriendCollection($friends);
+        return new \App\Http\Resources\FriendCollection($friends);
     }
 }
